@@ -35,7 +35,7 @@ def extract_features(plaintext, ciphertext, key):
     return plaintext_features + ciphertext_features + key_features
 
 # Load and preprocess data
-training_file_path = r'D:/Quant Maze 2.0/symmetric_with_key.csv'  # Replace with your dataset path
+training_file_path = r'D:/Quant Maze 2.0/symetric.csv'  # Replace with your dataset path
 df_train = load_dataset(training_file_path)
 
 # Feature extraction and label encoding
@@ -104,7 +104,7 @@ plt.tight_layout()
 plt.show()
 
 # Save the trained model
-model_filename = 'optimized_gb_model.pkl'
+model_filename = 'symetric_model.pkl'
 with open(model_filename, 'wb') as file:
     pickle.dump(best_model, file)
 
