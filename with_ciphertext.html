@@ -13,15 +13,30 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --primary-color: #33c1ff;
+      --secondary-color: #1a9db0;
+      --bg-dark: #1e1e2e;
+      --bg-light: #ffffff;
+      --text-dark: #000000;
+      --text-light: #ffffff;
+    }
+
     body {
       font-family: 'Montserrat', sans-serif;
-      background-color: #1e1e2e;
-      color: white;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.light-mode {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
     }
 
     .container {
@@ -38,7 +53,7 @@
     h1 {
       font-size: 2rem;
       margin-bottom: 20px;
-      color: #33c1ff;
+      color: var(--primary-color);
     }
 
     .form-group {
@@ -56,11 +71,11 @@
     }
 
     .form-group input:focus {
-      box-shadow: 0 0 5px #33c1ff;
+      box-shadow: 0 0 5px var(--primary-color);
     }
 
     button {
-      background-color: #33c1ff;
+      background-color: var(--primary-color);
       color: black;
       padding: 12px 30px;
       font-size: 1rem;
@@ -71,20 +86,20 @@
     }
 
     button:hover {
-      background-color: #1a9db0;
+      background-color: var(--secondary-color);
     }
 
     .result {
       margin-top: 20px;
       font-size: 1.1rem;
-      color: #33c1ff;
+      color: var(--primary-color);
       display: none;
     }
 
     .back-btn {
       margin-top: 20px;
       padding: 10px 20px;
-      background-color: #33c1ff;
+      background-color: var(--primary-color);
       color: black;
       font-size: 1rem;
       border: none;
@@ -93,7 +108,24 @@
     }
 
     .back-btn:hover {
-      background-color: #1a9db0;
+      background-color: var(--secondary-color);
+    }
+
+    .toggle-theme {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: var(--primary-color);
+      color: var(--text-dark);
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .toggle-theme:hover {
+      background-color: var(--secondary-color);
     }
 
     @keyframes fadeIn {
@@ -107,6 +139,8 @@
   </style>
 </head>
 <body>
+
+  <button class="toggle-theme" id="themeToggle">Light Mode</button>
 
   <div class="container">
     <h1>Cryptographic/Hash Algorithm Detector</h1>
@@ -138,45 +172,52 @@
   </div>
 
   <script>
+    // Toggle light and dark modes
+    const themeToggle = document.getElementById('themeToggle');
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      themeToggle.textContent = document.body.classList.contains('light-mode') ? 'Dark Mode' : 'Light Mode';
+    });
+
     document.getElementById('detectorForm').addEventListener('submit', function(event) {
-  event.preventDefault();  // Prevent the form from submitting
-  
-  // Show loading state
-  document.getElementById('loading').style.display = 'block';
-  document.getElementById('result').style.display = 'none';
-  
-  // Get form values
-  const ciphertext = document.getElementById('ciphertext').value;
-  const plaintext = document.getElementById('plaintext').value;
-  const key1 = document.getElementById('key1').value;
-  const key2 = document.getElementById('key2').value;
-  
-  // Prepare data to be sent in the request (optional if backend isn't being used)
-  const requestData = {
-    ciphertext: ciphertext,
-    plaintext: plaintext,
-    key1: key1,
-    key2: key2
-  };
-  
-  // Simulate generating a random algorithm name
-  const algorithms = [
-    'AES-256', 'RSA', 'Blowfish', 'Twofish', 'SHA-256', 'Triple DES', 'RC4', 'Elliptic Curve', 'ChaCha20', 'HMAC'
-  ];
+      event.preventDefault();  // Prevent the form from submitting
+      
+      // Show loading state
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('result').style.display = 'none';
+      
+      // Get form values
+      const ciphertext = document.getElementById('ciphertext').value;
+      const plaintext = document.getElementById('plaintext').value;
+      const key1 = document.getElementById('key1').value;
+      const key2 = document.getElementById('key2').value;
+      
+      // Prepare data to be sent in the request (optional if backend isn't being used)
+      const requestData = {
+        ciphertext: ciphertext,
+        plaintext: plaintext,
+        key1: key1,
+        key2: key2
+      };
+      
+      // Simulate generating a random algorithm name
+      const algorithms = [
+        'AES-256', 'RSA', 'Blowfish', 'Twofish', 'SHA-256', 'Triple DES', 'RC4', 'Elliptic Curve', 'ChaCha20', 'HMAC'
+      ];
 
-  const randomAlgorithm = algorithms[Math.floor(Math.random() * algorithms.length)];
-  
-  // Simulate delay and display the result
-  setTimeout(function() {
-    const resultText = `Algorithm Detected: ${randomAlgorithm}`;
-    
-    // Display the result
-    document.getElementById('result').innerText = resultText;
-    document.getElementById('result').style.display = 'block';
-    document.getElementById('loading').style.display = 'none';
-  }, 2000);  // Simulate a 2-second loading delay
-});
-
+      const randomAlgorithm = algorithms[Math.floor(Math.random() * algorithms.length)];
+      
+      // Simulate delay and display the result
+      setTimeout(function() {
+        const resultText = `Algorithm Detected: ${randomAlgorithm}`;
+        
+        // Display the result
+        document.getElementById('result').innerText = resultText;
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('loading').style.display = 'none';
+      }, 2000);  // Simulate a 2-second loading delay
+    });
   </script>
 
 </body>
