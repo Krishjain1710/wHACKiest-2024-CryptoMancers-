@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <title>Encryption Algorithm Detector</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #1e1e2e;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 1s ease-in-out;
+      max-width: 600px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #33c1ff;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group input {
+      width: 90%;
+      padding: 10px;
+      font-size: 1rem;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      box-shadow: 0 0 5px #33c1ff;
+    }
+
+    button {
+      background-color: #33c1ff;
+      color: black;
+      padding: 12px 30px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #1a9db0;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: #33c1ff;
+      display: none;
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #33c1ff;
+      color: black;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      background-color: #1a9db0;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Cryptographic/Hash Algorithm Detector</h1>
+    
+    <form id="detectorForm">
+      <div class="form-group">
+        <input type="text" id="ciphertext" placeholder="Enter Ciphertext*" required>
+      </div>
+      
+      <div class="form-group">
+        <input type="text" id="plaintext" placeholder="Enter Plaintext*" required>
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="key1" placeholder="Enter Key 1 (optional)">
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="key2" placeholder="Enter Key 2 (optional)">
+      </div>
+      
+      <button type="submit">Detect Algorithm</button>
+    </form>
+    
+    <div id="loading" style="display: none;">Loading...</div>
+    <div id="result" class="result"></div>
+    
+    <button onclick="window.location.href='plaintext.html'" class="back-btn">Back to Plaintext</button>
+  </div>
+
+  <script>
+    document.getElementById('detectorForm').addEventListener('submit', function(event) {
+  event.preventDefault();  // Prevent the form from submitting
+  
+  // Show loading state
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('result').style.display = 'none';
+  
+  // Get form values
+  const ciphertext = document.getElementById('ciphertext').value;
+  const plaintext = document.getElementById('plaintext').value;
+  const key1 = document.getElementById('key1').value;
+  const key2 = document.getElementById('key2').value;
+  
+  // Prepare data to be sent in the request (optional if backend isn't being used)
+  const requestData = {
+    ciphertext: ciphertext,
+    plaintext: plaintext,
+    key1: key1,
+    key2: key2
+  };
+  
+  // Simulate generating a random algorithm name
+  const algorithms = [
+    'AES-256', 'RSA', 'Blowfish', 'Twofish', 'SHA-256', 'Triple DES', 'RC4', 'Elliptic Curve', 'ChaCha20', 'HMAC'
+  ];
+
+  const randomAlgorithm = algorithms[Math.floor(Math.random() * algorithms.length)];
+  
+  // Simulate delay and display the result
+  setTimeout(function() {
+    const resultText = `Algorithm Detected: ${randomAlgorithm}`;
+    
+    // Display the result
+    document.getElementById('result').innerText = resultText;
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('loading').style.display = 'none';
+  }, 2000);  // Simulate a 2-second loading delay
+});
+
+  </script>
+
+</body>
+</html>
