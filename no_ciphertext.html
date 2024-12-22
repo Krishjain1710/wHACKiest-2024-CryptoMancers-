@@ -13,15 +13,30 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --primary-color: #33c1ff;
+      --secondary-color: #1a9db0;
+      --bg-dark: #1e1e2e;
+      --bg-light: #ffffff;
+      --text-dark: #000000;
+      --text-light: #ffffff;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #1e1e2e;
-      color: white;
+      background-color: var(--bg-dark);
+      color: var(--text-light);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.light-mode {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
     }
 
     .container {
@@ -38,7 +53,7 @@
     h1 {
       font-size: 2rem;
       margin-bottom: 20px;
-      color: #33c1ff;
+      color: var(--primary-color);
     }
 
     .form-group {
@@ -56,11 +71,11 @@
     }
 
     .form-group input:focus {
-      box-shadow: 0 0 5px #33c1ff;
+      box-shadow: 0 0 5px var(--primary-color);
     }
 
     button {
-      background-color: #33c1ff;
+      background-color: var(--primary-color);
       color: black;
       padding: 12px 30px;
       font-size: 1rem;
@@ -71,20 +86,20 @@
     }
 
     button:hover {
-      background-color: #1a9db0;
+      background-color: var(--secondary-color);
     }
 
     .result {
       margin-top: 20px;
       font-size: 1.1rem;
-      color: #33c1ff;
+      color: var(--primary-color);
       display: none;
     }
 
     .back-btn {
       margin-top: 20px;
       padding: 10px 20px;
-      background-color: #33c1ff;
+      background-color: var(--primary-color);
       color: black;
       font-size: 1rem;
       border: none;
@@ -93,7 +108,24 @@
     }
 
     .back-btn:hover {
-      background-color: #1a9db0;
+      background-color: var(--secondary-color);
+    }
+
+    .toggle-theme {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: var(--primary-color);
+      color: var(--text-dark);
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .toggle-theme:hover {
+      background-color: var(--secondary-color);
     }
 
     @keyframes fadeIn {
@@ -107,6 +139,8 @@
   </style>
 </head>
 <body>
+
+  <button class="toggle-theme" id="themeToggle">Light Mode</button>
 
   <div class="container">
     <h1>Cryptographic Algorithm Detector</h1>
@@ -126,6 +160,14 @@
   </div>
 
   <script>
+    // Toggle light and dark modes
+    const themeToggle = document.getElementById('themeToggle');
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      themeToggle.textContent = document.body.classList.contains('light-mode') ? 'Dark Mode' : 'Light Mode';
+    });
+
     document.getElementById('ciphertextForm').addEventListener('submit', function(event) {
       event.preventDefault();  // Prevent the form from submitting
 
